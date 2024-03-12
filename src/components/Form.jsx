@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Modal, SafeAreaView, Text, StyleSheet, TextInput, View, ScrollView } from 'react-native'
+import DatePicker from '@react-native-community/datetimepicker'
 
 const Form = ({ showModal, setShowModal }) => {
+    const [paciente, setPaciente] = useState('')
+    const [propietario, setPropietario] = useState('')
+    const [email, setEmail] = useState('')
+    const [telefono, setTelefono] = useState('')
+    const [sintomas, setSintomas] = useState('')
+    const [date, setDate] = useState(new Date())
+
     return (
         <Modal
             animationType='slide'
@@ -19,6 +27,8 @@ const Form = ({ showModal, setShowModal }) => {
                             style={styles.input}
                             placeholder='Nombre Paciente'
                             placeholderTextColor={'#666'}
+                            value={paciente}
+                            onChangeText={setPaciente}
                         />
                     </View>
 
@@ -28,6 +38,8 @@ const Form = ({ showModal, setShowModal }) => {
                             style={styles.input}
                             placeholder='Nombre Propietario'
                             placeholderTextColor={'#666'}
+                            value={propietario}
+                            onChangeText={setPropietario}
                         />
                     </View>
 
@@ -38,6 +50,8 @@ const Form = ({ showModal, setShowModal }) => {
                             placeholder='Email'
                             placeholderTextColor={'#666'}
                             keyboardType='email-address'
+                            value={email}
+                            onChangeText={setEmail}
                         />
                     </View>
 
@@ -48,15 +62,35 @@ const Form = ({ showModal, setShowModal }) => {
                             placeholder='Teléfono'
                             placeholderTextColor={'#666'}
                             keyboardType='number-pad'
+                            value={telefono}
+                            onChangeText={setTelefono}
+                            maxLength={9}
+                        />
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Fecha</Text>
+                        <DatePicker
+                            value={date}
+                            onDateChange={setDate}
+                            mode='datetime'
+                            display='spinner'
+                            textColor='white'
+                            themeVariant="dark"
+                            is24Hour={true}
                         />
                     </View>
 
                     <View style={styles.inputContainer}>
                         <Text style={styles.label}>Síntomas</Text>
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, styles.sintomasInput]}
                             placeholder='Síntomas'
                             placeholderTextColor={'#666'}
+                            value={sintomas}
+                            onChangeText={setSintomas}
+                            multiline={true}
+                            numberOfLines={4}
                         />
                     </View>
 
@@ -97,7 +131,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 15,
         borderRadius: 10,
-    }
+    },
+    sintomasInput: {
+        height: 100
+    },
+
 })
 
 export default Form
