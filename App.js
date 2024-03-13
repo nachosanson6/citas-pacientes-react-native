@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Button, Pressable, Modal } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, Pressable, Modal, FlatList } from 'react-native';
 import Form from './src/components/Form';
+import Patient from './src/components/Patient';
 
 
 export default function App() {
@@ -20,6 +21,24 @@ export default function App() {
         style={styles.btnNuevaCita}>
         <Text style={styles.btnTextoNuevCita}>Nueva cita</Text>
       </Pressable>
+
+      {patients.length === 0 ?
+        <Text style={styles.noPatients}>No hay pacientes</Text> :
+        <FlatList
+          data={patients}
+          keyExtractor={(item) => item.id}
+          renderItem={() => {
+            return (
+              <Patient />
+            )
+          }}
+        />
+
+      }
+
+
+
+
       <Form
         showModal={showModal}
         setShowModal={setShowModal}
@@ -59,6 +78,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '900',
     textTransform: 'uppercase'
+  },
+  noPatients: {
+    marginTop: 40,
+    textAlign: 'center',
+    fontSize: 24,
+    fontWeight: '600'
   }
 
 });
