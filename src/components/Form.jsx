@@ -10,6 +10,12 @@ const Form = ({ showModal, setShowModal }) => {
     const [sintomas, setSintomas] = useState('')
     const [date, setDate] = useState(new Date())
 
+
+    const handleChange = (event, selectedDate) => {
+        alert(selectedDate)
+        const currentDate = selectedDate || date;
+        setDate(currentDate);
+    }
     return (
         <Modal
             animationType='slide'
@@ -70,15 +76,17 @@ const Form = ({ showModal, setShowModal }) => {
 
                     <View style={styles.inputContainer}>
                         <Text style={styles.label}>Fecha</Text>
-                        <DatePicker
-                            value={date}
-                            onDateChange={setDate}
-                            mode='datetime'
-                            display='spinner'
-                            textColor='white'
-                            themeVariant="dark"
-                            is24Hour={true}
-                        />
+                        <View style={styles.picker}>
+                            <DatePicker
+                                value={date}
+                                onChange={handleChange}
+                                mode='datetime'
+                                display='spinner'
+                                textColor='black'
+                                themeVariant="dark"
+                                is24Hour={true}
+                            />
+                        </View>
                     </View>
 
                     <View style={styles.inputContainer}>
@@ -135,6 +143,10 @@ const styles = StyleSheet.create({
     sintomasInput: {
         height: 100
     },
+    picker: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+    }
 
 })
 
