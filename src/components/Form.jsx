@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Modal, SafeAreaView, Text, StyleSheet, TextInput, View, ScrollView } from 'react-native'
+import { Modal, SafeAreaView, Text, StyleSheet, TextInput, View, ScrollView, Pressable, Alert } from 'react-native'
 import DatePicker from '@react-native-community/datetimepicker'
 
-const Form = ({ showModal, setShowModal }) => {
+const Form = ({ showModal, setShowModal, setPatients, patients }) => {
     const [paciente, setPaciente] = useState('')
     const [propietario, setPropietario] = useState('')
     const [email, setEmail] = useState('')
@@ -16,6 +16,34 @@ const Form = ({ showModal, setShowModal }) => {
         const currentDate = selectedDate || date;
         setDate(currentDate);
     }
+
+    const handleNewDate = () => {
+        if ([paciente, propietario, date, email, sintomas].includes('')) {
+            Alert.alert(
+                'hay errores',
+                'Todos los campos son obligatorios',
+                [{ text: 'OK' }])
+            return
+        }
+        const newPacient = {
+            paciente,
+            propietario,
+            email,
+            telefono,
+            date,
+            sintomas
+
+        }
+        setPatients([...patients, newPacient])
+        setShowModal(false)
+
+        setPaciente('')
+        setPropietario('')
+        setEmail('')
+        setTelefono('')
+        setSintomas('')
+        setDate(new Date())
+    }
     return (
         <Modal
             animationType='slide'
@@ -26,6 +54,10 @@ const Form = ({ showModal, setShowModal }) => {
                     <Text style={styles.titulo}>Nueva {''}
                         <Text style={styles.tituloBold}>Cita</Text>
                     </Text>
+
+                    <Pressable style={styles.btnCancel} onLongPress={() => setShowModal(false)}>
+                        <Text style={styles.btnCancelText}>X Cancelar</Text>
+                    </Pressable>
 
                     <View style={styles.inputContainer}>
                         <Text style={styles.label}>Nombre Paciente</Text>
@@ -102,6 +134,10 @@ const Form = ({ showModal, setShowModal }) => {
                         />
                     </View>
 
+                    <Pressable style={styles.btnSend} onPress={handleNewDate}>
+                        <Text style={styles.btnSendText}>Agregar Paciente</Text>
+                    </Pressable>
+
 
                 </ScrollView>
             </SafeAreaView>
@@ -146,6 +182,38 @@ const styles = StyleSheet.create({
     picker: {
         backgroundColor: '#fff',
         borderRadius: 10,
+    },
+    btnCancel: {
+        backgroundColor: '#5827a4',
+        marginVertical: 30,
+        marginHorizontal: 30,
+        padding: 15,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'white'
+    },
+    btnCancelText: {
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: '900',
+        fontSize: 16,
+        textTransform: 'uppercase'
+    },
+    btnSend: {
+        backgroundColor: '#f59e0b',
+        marginVertical: 50,
+        marginHorizontal: 30,
+        paddingVertical: 15,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'white'
+    },
+    btnSendText: {
+        color: '#5827a4',
+        textAlign: 'center',
+        fontWeight: '900',
+        fontSize: 16,
+        textTransform: 'uppercase'
     }
 
 })

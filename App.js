@@ -6,6 +6,7 @@ import Form from './src/components/Form';
 
 export default function App() {
   const [showModal, setShowModal] = useState(false)
+  const [patients, setPatients] = useState([])
 
 
   return (
@@ -19,7 +20,11 @@ export default function App() {
         style={styles.btnNuevaCita}>
         <Text style={styles.btnTextoNuevCita}>Nueva cita</Text>
       </Pressable>
-      <Form showModal={showModal} setShowModal={setShowModal} />
+      <Form
+        showModal={showModal}
+        setShowModal={setShowModal}
+        patients={patients}
+        setPatients={setPatients} />
 
     </SafeAreaView>
   );
