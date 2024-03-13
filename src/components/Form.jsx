@@ -12,7 +12,6 @@ const Form = ({ showModal, setShowModal, setPatients, patients }) => {
 
 
     const handleChange = (event, selectedDate) => {
-        alert(selectedDate)
         const currentDate = selectedDate || date;
         setDate(currentDate);
     }

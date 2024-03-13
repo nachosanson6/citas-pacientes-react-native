@@ -25,11 +25,13 @@ export default function App() {
       {patients.length === 0 ?
         <Text style={styles.noPatients}>No hay pacientes</Text> :
         <FlatList
+          style={styles.flatlist}
           data={patients}
           keyExtractor={(item) => item.id}
-          renderItem={() => {
+          renderItem={({ item }) => {
+
             return (
-              <Patient />
+              <Patient item={item} />
             )
           }}
         />
@@ -84,6 +86,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 24,
     fontWeight: '600'
+  },
+  flatlist: {
+    marginTop: 50,
+    marginHorizontal: 30
   }
 
 });
