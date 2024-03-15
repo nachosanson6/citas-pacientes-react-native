@@ -1,9 +1,10 @@
 import React from 'react'
 import { Text, View, StyleSheet, Pressable } from 'react-native'
 
-const Patient = ({ item }) => {
-  const { paciente, date } = item
+const Patient = ({ item, setShowModal, editPatient }) => {
+  const { paciente, date, id } = item
 
+  // Función para formatear la fecha 
   const formatedDate = (date) => {
     const newDate = new Date(date)
     const options = {
@@ -17,6 +18,7 @@ const Patient = ({ item }) => {
 
     return newDate.toLocaleDateString('es-ES', options)
   }
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Paciente:</Text>
@@ -24,7 +26,13 @@ const Patient = ({ item }) => {
       <Text style={styles.date}>{formatedDate(date)}</Text>
 
       <View style={styles.btnContainer}>
-        <Pressable style={[styles.btn, styles.editbtn]}>
+        <Pressable
+          style={[styles.btn, styles.editbtn]}
+          onPress={() => {
+            setShowModal(true)
+            editPatient(id)
+          }}
+        >
           <Text style={styles.btnText}>Editar</Text>
         </Pressable>
         <Pressable style={[styles.btn, styles.deletebtn]}>

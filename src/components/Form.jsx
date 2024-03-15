@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, SafeAreaView, Text, StyleSheet, TextInput, View, ScrollView, Pressable, Alert } from 'react-native'
 import DatePicker from '@react-native-community/datetimepicker'
 
-const Form = ({ showModal, setShowModal, setPatients, patients }) => {
+const Form = ({ showModal, setShowModal, setPatients, patients, patient, setPatient }) => {
+    const [id, setId] = useState('')
     const [paciente, setPaciente] = useState('')
     const [propietario, setPropietario] = useState('')
     const [email, setEmail] = useState('')
@@ -10,6 +11,20 @@ const Form = ({ showModal, setShowModal, setPatients, patients }) => {
     const [sintomas, setSintomas] = useState('')
     const [date, setDate] = useState(new Date())
 
+
+    useEffect(() => {
+
+        if (Object.keys(patient).length > 0) {
+            setId(patient.id)
+            setPaciente(patient.paciente)
+            setPropietario(patient.propietario)
+            setEmail(patient.email)
+            setTelefono(patient.telefono)
+            setSintomas(patient.sintomas)
+            setDate(patient.date)
+        }
+
+    }, [patient])
 
     const handleChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -24,19 +39,31 @@ const Form = ({ showModal, setShowModal, setPatients, patients }) => {
                 [{ text: 'OK' }])
             return
         }
+
         const newPacient = {
-            id: Date.now(),
             paciente,
             propietario,
             email,
             telefono,
             date,
             sintomas
-
         }
-        setPatients([...patients, newPacient])
-        setShowModal(false)
 
+        if (id) {
+            newPacient.id = id
+            const updatedPatients = patients.map(patientState =>
+                patientState.id === newPacient.id ? newPacient : patientState)
+
+            setPatients(updatedPatients)
+            setPatient({})
+
+        } else {
+            newPacient.id = Date.now()
+            setPatients([...patients, newPacient])
+        }
+
+        setShowModal(false)
+        setId('')
         setPaciente('')
         setPropietario('')
         setEmail('')
@@ -55,7 +82,17 @@ const Form = ({ showModal, setShowModal, setPatients, patients }) => {
                         <Text style={styles.tituloBold}>Cita</Text>
                     </Text>
 
-                    <Pressable style={styles.btnCancel} onLongPress={() => setShowModal(false)}>
+                    <Pressable style={styles.btnCancel} onPress={() => {
+                        setShowModal(false)
+                        setPatient({})
+                        setId('')
+                        setPaciente('')
+                        setPropietario('')
+                        setEmail('')
+                        setTelefono('')
+                        setSintomas('')
+                        setDate(new Date())
+                    }}>
                         <Text style={styles.btnCancelText}>X Cancelar</Text>
                     </Pressable>
 

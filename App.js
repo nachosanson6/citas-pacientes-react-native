@@ -8,7 +8,14 @@ import Patient from './src/components/Patient';
 export default function App() {
   const [showModal, setShowModal] = useState(false)
   const [patients, setPatients] = useState([])
+  const [patient, setPatient] = useState({})
 
+  // Filtra el paciente por la id
+  const editPatient = (id) => {
+    const editPatient = patients.filter(patient => patient.id === id)
+    setPatient(editPatient[0])
+
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -17,7 +24,10 @@ export default function App() {
       </Text>
 
       <Pressable
-        onPress={() => setShowModal(true)}
+        onPress={() => {
+          setShowModal(true)
+
+        }}
         style={styles.btnNuevaCita}>
         <Text style={styles.btnTextoNuevCita}>Nueva cita</Text>
       </Pressable>
@@ -31,7 +41,10 @@ export default function App() {
           renderItem={({ item }) => {
 
             return (
-              <Patient item={item} />
+              <Patient item={item}
+                setShowModal={setShowModal}
+                editPatient={editPatient}
+              />
             )
           }}
         />
@@ -45,7 +58,9 @@ export default function App() {
         showModal={showModal}
         setShowModal={setShowModal}
         patients={patients}
-        setPatients={setPatients} />
+        setPatients={setPatients}
+        patient={patient}
+        setPatient={setPatient} />
 
     </SafeAreaView>
   );
