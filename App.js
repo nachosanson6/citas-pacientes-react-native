@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Button, Pressable, Modal, FlatList } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, Pressable, Modal, FlatList, Alert } from 'react-native';
 import Form from './src/components/Form';
 import Patient from './src/components/Patient';
+import PatientInformation from './src/components/PatientInformation';
 
 
 export default function App() {
   const [showModal, setShowModal] = useState(false)
+  const [showPatientModal, setShowPatientModal] = useState(false)
   const [patients, setPatients] = useState([])
   const [patient, setPatient] = useState({})
 
@@ -15,6 +17,22 @@ export default function App() {
     const editPatient = patients.filter(patient => patient.id === id)
     setPatient(editPatient[0])
 
+  }
+
+  const deletePatient = (id) => {
+    Alert.alert(
+      '¿Deseas eliminar este paciente?',
+      'Un paciente eliminado no se puede recuperar',
+      [
+        { text: 'Cancelar' },
+        {
+          text: 'Si, Eliminar', onPress: () => {
+            const updatedPatients = patients.filter(patientsState => patientsState.id !== id)
+            setPatients(updatedPatients)
+          }
+        }
+      ]
+    )
   }
 
   return (
@@ -44,15 +62,14 @@ export default function App() {
               <Patient item={item}
                 setShowModal={setShowModal}
                 editPatient={editPatient}
+                deletePatient={deletePatient}
+                setShowPatientModal={setShowPatientModal}
+                setPatient={setPatient}
               />
             )
           }}
         />
-
       }
-
-
-
 
       <Form
         showModal={showModal}
@@ -61,6 +78,13 @@ export default function App() {
         setPatients={setPatients}
         patient={patient}
         setPatient={setPatient} />
+
+      <Modal
+        visible={showPatientModal}
+        animationType='fade'
+      >
+        <PatientInformation patient={patient} />
+      </Modal>
 
     </SafeAreaView>
   );

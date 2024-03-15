@@ -62,6 +62,7 @@ const Form = ({ showModal, setShowModal, setPatients, patients, patient, setPati
             setPatients([...patients, newPacient])
         }
 
+
         setShowModal(false)
         setId('')
         setPaciente('')
@@ -78,7 +79,7 @@ const Form = ({ showModal, setShowModal, setPatients, patients, patient, setPati
         >
             <SafeAreaView style={styles.contenido}>
                 <ScrollView>
-                    <Text style={styles.titulo}>Nueva {''}
+                    <Text style={styles.titulo}>{patient.id ? 'Editar' : 'Nueva'} {''}
                         <Text style={styles.tituloBold}>Cita</Text>
                     </Text>
 
@@ -172,7 +173,7 @@ const Form = ({ showModal, setShowModal, setPatients, patients, patient, setPati
                     </View>
 
                     <Pressable style={styles.btnSend} onPress={handleNewDate}>
-                        <Text style={styles.btnSendText}>Agregar Paciente</Text>
+                        <Text style={styles.btnSendText}>{patient.id ? 'Editar ' : 'Agregar '}Paciente</Text>
                     </Pressable>
 
 

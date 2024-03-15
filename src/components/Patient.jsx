@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View, StyleSheet, Pressable } from 'react-native'
 
-const Patient = ({ item, setShowModal, editPatient }) => {
+const Patient = ({ item, setShowModal, editPatient, deletePatient, setShowPatientModal, setPatient }) => {
   const { paciente, date, id } = item
 
   // Función para formatear la fecha 
@@ -20,26 +20,34 @@ const Patient = ({ item, setShowModal, editPatient }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Paciente:</Text>
-      <Text style={styles.text}>{paciente}</Text>
-      <Text style={styles.date}>{formatedDate(date)}</Text>
+    <Pressable onPress={() => {
+      setShowPatientModal(true)
+      setPatient(item)
+    }}>
+      <View style={styles.container}>
+        <Text style={styles.label}>Paciente:</Text>
+        <Text style={styles.text}>{paciente}</Text>
+        <Text style={styles.date}>{formatedDate(date)}</Text>
 
-      <View style={styles.btnContainer}>
-        <Pressable
-          style={[styles.btn, styles.editbtn]}
-          onPress={() => {
-            setShowModal(true)
-            editPatient(id)
-          }}
-        >
-          <Text style={styles.btnText}>Editar</Text>
-        </Pressable>
-        <Pressable style={[styles.btn, styles.deletebtn]}>
-          <Text style={styles.btnText}>Eliminar</Text>
-        </Pressable>
+        <View style={styles.btnContainer}>
+          <Pressable
+            style={[styles.btn, styles.editbtn]}
+            onPress={() => {
+              setShowModal(true)
+              editPatient(id)
+            }}
+          >
+            <Text style={styles.btnText}>Editar</Text>
+          </Pressable>
+
+          <Pressable
+            style={[styles.btn, styles.deletebtn]}
+            onPress={() => deletePatient(id)}>
+            <Text style={styles.btnText}>Eliminar</Text>
+          </Pressable>
+        </View>
       </View>
-    </View>
+    </Pressable>
   )
 }
 
