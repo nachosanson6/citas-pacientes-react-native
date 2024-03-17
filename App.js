@@ -70,20 +70,24 @@ export default function App() {
           }}
         />
       }
-
-      <Form
-        showModal={showModal}
-        setShowModal={setShowModal}
-        patients={patients}
-        setPatients={setPatients}
-        patient={patient}
-        setPatient={setPatient} />
+      {showModal && (
+        <Form
+          showModal={showModal}
+          setShowModal={setShowModal}
+          patients={patients}
+          setPatients={setPatients}
+          patient={patient}
+          setPatient={setPatient} />
+      )}
 
       <Modal
         visible={showPatientModal}
         animationType='fade'
       >
-        <PatientInformation patient={patient} />
+        <PatientInformation
+          patient={patient}
+          setShowPatientModal={setShowPatientModal}
+          setPatient={setPatient} />
       </Modal>
 
     </SafeAreaView>
